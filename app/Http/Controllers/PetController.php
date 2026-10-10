@@ -9,4 +9,9 @@ class PetController extends Controller
     public function index(){
         return view('pets.index');
     }
+
+    public function create(){
+        return view('pets.create');
+    }
+
 }
