@@ -23,8 +23,9 @@ Route::middleware('auth')->group(function () {
 
     // 編集画面
     Route::get('pets/{pet}/edit', [PetController::class, 'edit'])->name('pets.edit');
+
+    // 更新用
+    Route::post('pets/{pet}/update', [PetController::class, 'update'])->name('pets.update');
 });
 
 require __DIR__ . '/auth.php';
-
-

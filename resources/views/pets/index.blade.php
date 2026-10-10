@@ -7,9 +7,10 @@
 </head>
 <body>
    @foreach($pets as $pet)
-    <p>名前{{ $pet->name }}</p>
-    <p>誕生日{{ $pet->birthday }}</p>
-    <p>性別{{ $pet->sex }}</p>
+    <p>名前:{{ $pet->name }}</p>
+    <p>誕生日:{{ $pet->birthday }}</p>
+    <p>性別:{{ $pet->sex }}</p>
+    <a href="{{ route('pets.edit', $pet)  }}">編集する</a>
 @endforeach
 
 </body>

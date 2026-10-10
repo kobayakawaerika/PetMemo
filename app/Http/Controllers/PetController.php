@@ -12,7 +12,7 @@ class PetController extends Controller
     {
         $pets = Pets::where('user_id', Auth::id())->get();
 
-        if ($pets->isEmpty()){
+        if ($pets->isEmpty()) {
             return redirect('peets.create');
         }
         return view('pets.index', compact('pets'));
@@ -41,9 +41,27 @@ class PetController extends Controller
     }
 
     // 編集画面
-    public function edit($id){
+    public function edit($id)
+    {
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
 
         return view('pets.edit', compact('pet'));
+    }
+
+    //更新用
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'sex' => ['required', 'in:man,female,unknown'],
+            'birthday' => ['nullable', 'date'],
+        ]);
+        $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
+        $pet->update([
+            'name' => $validated['name'],
+            'sex' => $validated['sex'],
+            'birthday' => $validated['birthday'],
+        ]);
+        return redirect('index');
     }
 }
