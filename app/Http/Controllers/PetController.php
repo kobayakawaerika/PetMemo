@@ -10,7 +10,12 @@ class PetController extends Controller
 {
     public function index()
     {
-        return view('pets.index');
+        $pets = Pets::where('user_id', Auth::id())->get();
+
+        if ($pets->isEmpty()){
+            return redirect('peets.create');
+        }
+        return view('pets.index', compact('pets'));
     }
 
     public function create()

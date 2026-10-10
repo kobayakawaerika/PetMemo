@@ -6,6 +6,10 @@
     <title>メイン画面</title>
 </head>
 <body>
-    テスト
+   @foreach($pets as $pet)
+    <p>名前{{ $pet->name }}</p>
+    <p>誕生日{{ $pet->birthday }}</p>
+    <p>性別{{ $pet->sex }}</p>
+@endforeach
 </body>
 </html>
