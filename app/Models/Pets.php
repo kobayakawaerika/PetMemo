@@ -8,6 +8,7 @@ use App\Models\Memos;
 class Pets extends Model
 {
     protected $fillable = [
+        'user_id',
         'name',
         'birthday',
         'sex'
