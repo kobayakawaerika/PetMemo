@@ -11,5 +11,6 @@
     <p>誕生日{{ $pet->birthday }}</p>
     <p>性別{{ $pet->sex }}</p>
 @endforeach
+
 </body>
 </html>

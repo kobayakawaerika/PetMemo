@@ -39,4 +39,11 @@ class PetController extends Controller
         ]);
         return redirect('index');
     }
+
+    // 編集画面
+    public function edit($id){
+        $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
+
+        return view('pets.edit', compact('pet'));
+    }
 }

@@ -20,6 +20,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/index', [PetController::class, 'index'])->name('index');
     Route::get('/pets/create', [PetController::class, 'create'])->name('pets.create');
     Route::post('/pets/store', [PetController::class, 'store'])->name('pets.store');
+
+    // 編集画面
+    Route::get('pets/{pet}/edit', [PetController::class, 'edit'])->name('pets.edit');
 });
 
 require __DIR__ . '/auth.php';
