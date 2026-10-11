@@ -21,7 +21,13 @@ class PetController extends Controller
 
     abort_if(! $pet, 404);
 
-    return view('pets.index', compact('pets', 'pet'));
+    $memos = $pet->memos()
+    ->orderByDesc('memo_date')
+    ->orderByDesc('id')
+    ->take(5)
+    ->get();
+
+    return view('pets.index', compact('pets', 'pet', 'memos'));
     }
 
     public function create()

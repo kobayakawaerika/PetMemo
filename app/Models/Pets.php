@@ -39,7 +39,7 @@ public function age(): ?string
     ];
 
     public function memos(){
-    return $this->hasMany(Memos::class);
+    return $this->hasMany(Memos::class, 'pet_id');
 }
 
 }
