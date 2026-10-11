@@ -6,6 +6,7 @@
     <title>メイン画面</title>
 </head>
 <body>
+    <a href="{{ route('pets.create') }}">登録する</a>
    @foreach($pets as $pet)
     <p>名前:{{ $pet->name }}</p>
     <p>誕生日:{{ $pet->birthday }}</p>
