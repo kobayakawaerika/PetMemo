@@ -8,14 +8,20 @@ use App\Models\Pets;
 
 class PetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $pets = Pets::where('user_id', Auth::id())->get();
 
         if ($pets->isEmpty()) {
             return redirect('peets.create');
         }
-        return view('pets.index', compact('pets'));
+        $pet = $request->filled('pet')
+        ? $pets->firstWhere('id', $request->pet)
+        : $pets->first();
+
+    abort_if(! $pet, 404);
+
+    return view('pets.index', compact('pets', 'pet'));
     }
 
     public function create()

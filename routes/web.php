@@ -26,6 +26,9 @@ Route::middleware('auth')->group(function () {
 
     // 更新用
     Route::post('pets/{pet}/update', [PetController::class, 'update'])->name('pets.update');
+
+    // ペットメモ追加用
+    Route::post('pets/{pet}/memos', [PetController::class, 'memo'])->name('pets.memo');
 });
 
 require __DIR__ . '/auth.php';
