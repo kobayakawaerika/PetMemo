@@ -20,10 +20,16 @@
 
             @if($pet->age())
             <p class="mt-1 text-gray-600">{{ $pet->age() }}</p>
+            @else
+            <p>年齢：不明</p>
             @endif
 
+            @if($pet->birthday)
             <p class="mt-4 text-sm text-gray-500">🎂誕生日🎂</p>
             <p>{{ $pet->birthday }}</p>
+            @else
+            <p>🎂誕生日🎂:不明</p>
+            @endif
 
             <a href="{{ route('pets.edit', $pet) }}"
                 class="mt-6 inline-block rounded-lg bg-orange-400 px-4 py-2 text-white">
