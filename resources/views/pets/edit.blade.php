@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>編集画面</title>
-</head>
-<body>
+<x-layout title="編集画面">
     <h1>ペット編集</h1>
    <form action="{{ route('pets.update', $pet) }}" method="POST">
         @csrf
@@ -22,5 +14,4 @@
         <br>
         <button type="submit">保存</button>
     </form>
-</body>
-</html>
+</x-layout>

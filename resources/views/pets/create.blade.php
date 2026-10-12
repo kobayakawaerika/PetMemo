@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ペット登録画面</title>
-</head>
-<body>
+<x-layout title="登録画面">
     <h1>ペット登録</h1>
    <form action="{{ route('pets.store') }}" method="POST">
         @csrf
@@ -21,5 +14,4 @@
         <br>
         <button type="submit">登録する</button>
     </form>
-</body>
-</html>
+</x-layout>
