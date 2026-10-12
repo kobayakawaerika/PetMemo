@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
+<x-layout title="メイン画面">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <title>メイン画面</title>
-</head>
-
-<body class="bg-gray-100">
     <div class="mx-auto max-w-md px-4 py-4">
         <div class="flex justify-end">
             <form action="{{ route('pets.create') }}" method="GET">
@@ -19,10 +10,10 @@
                 </button>
             </form>
         </div>
-        <div class="mt-6 flex max-w-md gap-2 overflow-x-auto">
+        <div class="mt-6 flex max-w-md gap-2 overflow-x-auto pb-2">
             @foreach($pets as $p)
             <a href="{{ route('index', ['pet' => $p->id]) }}"
-                class="whitespace-nowrap rounded-full px-4 py-2 text-sm shadow
+                class="font-medium whitespace-nowrap rounded-full px-4 py-2 text-sm shadow
         {{ $p->id === $pet->id ? 'bg-orange-400 text-white' : 'bg-white text-gray-600' }}">
                 {{ $p->name }}
             </a>
@@ -84,6 +75,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
