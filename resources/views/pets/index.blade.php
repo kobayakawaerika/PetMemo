@@ -10,14 +10,15 @@
 
 <body class="bg-gray-100">
     <a href="{{ route('pets.create') }}">登録する</a>
-    {{-- 切り替えタブ --}}
+<div class="mx-auto mt-6 flex max-w-md gap-2 overflow-x-auto">
     @foreach($pets as $p)
     <a href="{{ route('index', ['pet' => $p->id]) }}"
-        style="{{ $p->id === $pet->id ? 'font-weight:bold' : '' }}">
+        class="whitespace-nowrap rounded-full px-4 py-2 text-sm shadow
+        {{ $p->id === $pet->id ? 'bg-orange-400 text-white' : 'bg-white text-gray-600' }}">
         {{ $p->name }}
     </a>
     @endforeach
-
+</div>
 
     <div class="mx-auto mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
         <h2 class="text-2xl font-bold">
