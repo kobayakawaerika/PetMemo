@@ -1,15 +1,6 @@
 <x-layout title="メイン画面">
 
     <div class="mx-auto max-w-md px-4 py-4">
-        <div class="flex justify-end">
-            <form action="{{ route('pets.create') }}" method="GET">
-                @csrf
-                <button type="submit"
-                    class="resize-none w-full rounded-lg bg-rose-400 px-4 py-2 text-white">
-                    新しく家族を登録する
-                </button>
-            </form>
-        </div>
         <div class="mt-6 flex max-w-md gap-2 overflow-x-auto pb-2">
             @foreach($pets as $p)
             <a href="{{ route('index', ['pet' => $p->id]) }}"
@@ -18,6 +9,7 @@
                 {{ $p->name }}
             </a>
             @endforeach
+            <a href="{{ route('pets.create') }}" class="rounded-full h-9 w-9 flex items-center justify-center shrink-0 bg-rose-400 shadow text-white">＋</a>
         </div>
 
         <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
