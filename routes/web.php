@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
 
     // ペットメモ削除用
     Route::delete('memos/{memo}', [MemoController::class, 'delete'])->name('memos.delete');
+
+    // ペット削除用
+    Route::delete('pets/{pet}/delete', [PetController::class, 'delete'])->name('pets.delete');
 });
 
 require __DIR__ . '/auth.php';

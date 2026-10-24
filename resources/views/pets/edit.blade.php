@@ -32,6 +32,16 @@
                     class="resize-none w-full rounded-lg bg-orange-400 px-4 py-2 text-white">
                     編集する
                 </button>
+                </form>
+
+                <!-- 削除する -->
+                <form action="{{ route('pets.delete', $pet) }}" method="POST" onsubmit="return confirm('本当に削除しますか？メモも一緒に消えます')">
+                    @csrf
+                    @method('DELETE') 
+                <button type="submit"
+                    class="mt-16 resize-none w-full rounded-lg bg-red-700 px-4 py-2 text-white">
+                    このペットを削除する
+                </button>
             </form>
         </div>
     </div>
