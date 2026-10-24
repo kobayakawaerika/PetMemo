@@ -48,7 +48,43 @@
                 編集する
             </a>
         </div>
-        
+
+        <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
+            <h3 class="text-lg font-bold">体重の記録</h3>
+
+            <form action="{{ route('pets.weight', $pet) }}" method="POST" class="mt-4">
+                @csrf
+                <label class="text-sm text-gray-500">体重(kg)</label>
+                <input type="number" name="weight" step="0.01" value="{{ old('weight') }}"
+                    class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2">
+                @error('weight')
+                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+
+                <label class="mt-3 block text-sm text-gray-500">測った日時</label>
+                <input type="datetime-local" name="measured_at"
+                    value="{{ old('measured_at', now()->format('Y-m-d\TH:i')) }}"
+                    class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2">
+                @error('measured_at')
+                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+
+                <button type="submit"
+                    class="mt-4 w-full rounded-lg bg-orange-400 px-4 py-2 text-white">
+                    体重を記録する
+                </button>
+            </form>
+
+            @forelse($weights as $w)
+            <div class="mt-4 border-b border-gray-200 pb-3">
+                <p class="text-sm text-gray-500">{{ $w->measured_at->format('Y/n/j H:i') }}</p>
+                <p class="text-lg">{{ $w->weight }} kg</p>
+            </div>
+            @empty
+            <p class="mt-4 text-gray-500">まだ体重の記録がありません</p>
+            @endforelse
+        </div>
+
 
         <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
             <h3 class="text-lg font-bold">最新のメモ</h3>
