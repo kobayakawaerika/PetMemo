@@ -12,11 +12,23 @@
             <a href="{{ route('pets.create') }}" class="rounded-full h-9 w-9 flex items-center justify-center shrink-0 bg-rose-400 shadow text-white">＋</a>
         </div>
 
-        <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
-            <h2 class="text-2xl font-bold">
-                {{ $pet->name }}
-                <span class="text-lg text-gray-500">{{ $pet->sexSymbol() }}</span>
-            </h2>
+        <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow text-center">
+            <div class="flex flex-col items-center gap-3 text-center">
+                @if ($pet->photo_path)
+                <img src="{{ asset('storage/' . $pet->photo_path) }}"
+                    alt="{{ $pet->name }}の写真"
+                    class="h-24 w-24 rounded-full object-cover">
+                @else
+                <div class="flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 text-4xl">
+                    🐾
+                </div>
+                @endif
+
+                <h2 class="text-2xl font-bold">
+                    {{ $pet->name }}
+                    <span class="text-lg text-gray-500">{{ $pet->sexSymbol() }}</span>
+                </h2>
+            </div>
 
             @if($pet->age())
             <p class="mt-1 text-gray-600">{{ $pet->age() }}</p>
