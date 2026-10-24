@@ -35,7 +35,7 @@ class PetController extends Controller
 
         $weights = $pet->weightLogs()
             ->orderByDesc('measured_at')
-            ->take(10)
+            ->take(1)
             ->get();
 
         return view('pets.index', compact('pets', 'pet', 'memos', 'weights'));
