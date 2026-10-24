@@ -16,21 +16,21 @@ PetMemo（ペットの健康・日誌管理アプリ）
 
 フロントエンド: Blade / Tailwind CSS
 
-データベース: MySQL 8.0
+データベース: MySQL (XAMPP環境)
 
-環境構築: Docker / Laravel Sail
+開発環境: XAMPP (Apache / MySQL)
 
 認証機能: Laravel Breeze
 
 📱 主な機能一覧
 
-ユーザー管理
+1. ユーザー管理機能
 
 新規会員登録 / ログイン / ログアウト
 
 プロフィール編集
 
-ペット管理機能
+2. ペット管理機能
 
 ペットの新規登録 / 編集 / 削除
 
@@ -40,7 +40,7 @@ PetMemo（ペットの健康・日誌管理アプリ）
 
 ペット切替タブ（クリックで各ペットのメモに即座にアクセス）
 
-メモ（日誌）管理機能
+3. メモ（日誌）管理機能
 
 ペットごとのメモ追加・一覧表示
 
@@ -48,7 +48,9 @@ PetMemo（ペットの健康・日誌管理アプリ）
 
 メモの削除機能
 
-セキュリティ対策: 他人のペットやメモに対する不正な操作（直打ちURLアクセス等）の防止
+4. セキュリティ・認可対策
+
+他人のペットやメモに対する不正な操作（URL直打ち等による参照・更新・削除）の防止
 
 🗄 データベース設計（ER図）
 
@@ -57,56 +59,74 @@ erDiagram
     pets ||--o{ memos : "1対多"
 
     users {
-        bigint id PK
-        string name
-        string email
-        string password
+        bigint id PK "ユーザーID"
+        string name "ユーザー名"
+        string email "メールアドレス"
+        string password "パスワード"
     }
 
     pets {
-        bigint id PK
-        bigint user_id FK
-        string name
-        string sex
-        date birthday
+        bigint id PK "ペットID"
+        bigint user_id FK "ユーザーID"
+        string name "ペット名"
+        string sex "性別"
+        date birthday "生年月日"
     }
 
     memos {
-        bigint id PK
-        bigint pet_id FK
-        text content
-        date memo_date
+        bigint id PK "メモID"
+        bigint pet_id FK "ペットID"
+        text content "メモ内容"
+        date memo_date "記録日付"
     }
 
 
 ✨ セキュリティ・設計で工夫した点
 
 認可（Authorization）の徹底:
-
 where('user_id', Auth::id()) や whereHas リレーションを活用し、URLのIDを直接変更されても他人のペットやメモの参照・更新・削除ができないように強固な保護を行なっています。
 
 直感的な操作性とUI設計:
-
 Tailwind CSSを用い、どのペットの情報を見ているかが一目でわかる「タブ切り替え」や、レスポンシブに対応したシンプルなレイアウトを構築しました。
 
 モデルでのカプセル化:
-
 sexSymbol() や age() などの表示ロジックをモデル（Pets.php）内にカプセル化し、Blade側での可読性とコードの再利用性を高めています。
 
-🚀 ローカル環境での起動手順
+🚀 ローカル環境での起動手順 (XAMPP環境)
 
-# リポジトリのクローン
+1. リポジトリのクローン
+
+xampp/htdocs ディレクトリ等で実行します。
+
 git clone https://github.com/kobayakawaerika/PetMemo.git
 cd PetMemo
 
-# 環境変数のコピー
+
+2. パッケージのインストール
+
+composer install
+npm install
+
+
+3. 環境変数の設定 (.env)
+
 cp .env.example .env
+php artisan key:generate
 
-# Dockerコンテナの起動 (Laravel Sail)
-./vendor/bin/sail up -d
 
-# パッケージインストール & マイグレーション
-./vendor/bin/sail composer install
-./vendor/bin/sail npm install && ./vendor/bin/sail npm run dev
-./vendor/bin/sail artisan key:generate
-./vendor/bin/sail artisan migrate
+※ .env 内のデータベース接続情報を XAMPP の MySQL 設定に合わせて変更してください（例: DB_DATABASE=pet_memo, DB_USERNAME=root, DB_PASSWORD=）。
+
+4. マイグレーションの実行
+
+XAMPPコントロールパネルで Apache と MySQL を起動後、データベースを作成してから実行します。
+
+php artisan migrate
+
+
+5. アセットビルド & サーバー起動
+
+npm run dev
+php artisan serve
+
+
+ブラウザで http://127.0.0.1:8000 にアクセスします。
