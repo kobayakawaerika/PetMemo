@@ -21,6 +21,7 @@ class Pets extends Model
         'name',
         'birthday',
         'sex',
+        'photo_path',
     ];
 
     /**
