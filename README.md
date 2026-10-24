@@ -1,59 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+PetMemo（ペットの健康・日誌管理アプリ）
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ペットの日常の様子や通院記録、メモを簡単に記録・管理できるWebアプリケーションです。
 
-## About Laravel
+シンプルなUIで「記録のしやすさ」と「情報の一覧性」にこだわって作成しました。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+💡 開発背景・解決したい課題
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+多頭飼いをしている飼い主や、ペットの体調変化を日常的に記録したい飼い主向けに開発しました。
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+「いつどんなメモを残したか」「誰の記録か」が直感的に切り替えられ、日々の細かな変化を見逃さない仕組みを目指しました。
 
-## Learning Laravel
+🛠 使用技術（Tech Stack）
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+バックエンド: PHP 8.x / Laravel 11.x
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+フロントエンド: Blade / Tailwind CSS
 
-## Laravel Sponsors
+データベース: MySQL (XAMPP環境)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+開発環境: XAMPP (Apache / MySQL)
 
-### Premium Partners
+認証機能: Laravel Breeze
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+📱 主な機能一覧
 
-## Contributing
+1. ユーザー管理機能
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+新規会員登録 / ログイン / ログアウト
 
-## Code of Conduct
+プロフィール編集
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. ペット管理機能
 
-## Security Vulnerabilities
+ペットの新規登録 / 編集 / 削除
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+性別（♂ / ♀ / 不明）に応じたアイコン・記号表示
 
-## License
+生年月日に基づく年齢の自動計算表示（◯歳◯ヶ月）
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ペット切替タブ（クリックで各ペットのメモに即座にアクセス）
+
+3. メモ（日誌）管理機能
+
+ペットごとのメモ追加・一覧表示
+
+日付・投稿時間の保持
+
+メモの削除機能
+
+4. セキュリティ・認可対策
+
+他人のペットやメモに対する不正な操作（URL直打ち等による参照・更新・削除）の防止
+
+🗄 データベース設計（ER図）
+
+erDiagram
+    users ||--o{ pets : "1対多"
+    pets ||--o{ memos : "1対多"
+
+    users {
+        bigint id PK "ユーザーID"
+        string name "ユーザー名"
+        string email "メールアドレス"
+        string password "パスワード"
+    }
+
+    pets {
+        bigint id PK "ペットID"
+        bigint user_id FK "ユーザーID"
+        string name "ペット名"
+        string sex "性別"
+        date birthday "生年月日"
+    }
+
+    memos {
+        bigint id PK "メモID"
+        bigint pet_id FK "ペットID"
+        text content "メモ内容"
+        date memo_date "記録日付"
+    }
+
+
+✨ セキュリティ・設計で工夫した点
+
+認可（Authorization）の徹底:
+where('user_id', Auth::id()) や whereHas リレーションを活用し、URLのIDを直接変更されても他人のペットやメモの参照・更新・削除ができないように強固な保護を行なっています。
+
+直感的な操作性とUI設計:
+Tailwind CSSを用い、どのペットの情報を見ているかが一目でわかる「タブ切り替え」や、レスポンシブに対応したシンプルなレイアウトを構築しました。
+
+モデルでのカプセル化:
+sexSymbol() や age() などの表示ロジックをモデル（Pets.php）内にカプセル化し、Blade側での可読性とコードの再利用性を高めています。
+
+🚀 ローカル環境での起動手順 (XAMPP環境)
+
+1. リポジトリのクローン
+
+xampp/htdocs ディレクトリ等で実行します。
+
+git clone https://github.com/kobayakawaerika/PetMemo.git
+cd PetMemo
+
+
+2. パッケージのインストール
+
+composer install
+npm install
+
+
+3. 環境変数の設定 (.env)
+
+cp .env.example .env
+php artisan key:generate
+
+
+※ .env 内のデータベース接続情報を XAMPP の MySQL 設定に合わせて変更してください（例: DB_DATABASE=pet_memo, DB_USERNAME=root, DB_PASSWORD=）。
+
+4. マイグレーションの実行
+
+XAMPPコントロールパネルで Apache と MySQL を起動後、データベースを作成してから実行します。
+
+php artisan migrate
+
+
+5. アセットビルド & サーバー起動
+
+npm run dev
+php artisan serve
+
+
+ブラウザで http://127.0.0.1:8000 にアクセスします。
