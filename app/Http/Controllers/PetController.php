@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pets;
+use Illuminate\Support\Facades\Storage;
 
 class PetController extends Controller
 {
@@ -80,16 +81,21 @@ class PetController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'sex' => ['required', 'in:man,female,unknown'],
             'birthday' => ['nullable', 'date'],
+            'photo' => ['nullable', 'image', 'max:2048'],
         ]);
 
         // 自分のペットのみ取得（いなければ404）
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
 
-        $pet->update([
-            'name' => $validated['name'],
-            'sex' => $validated['sex'],
-            'birthday' => $validated['birthday'],
-        ]);
+        // 新しい写真があるときだけ、古い写真を消して保存
+    if ($request->hasFile('photo')) {
+        if ($pet->photo_path) {
+            Storage::disk('public')->delete($pet->photo_path);
+        }
+        $data['photo_path'] = $request->file('photo')->store('pets', 'public');
+    }
+
+        $pet->update($data);
 
         return redirect()->route('index', ['pet' => $pet->id]);
     }
