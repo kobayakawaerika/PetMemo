@@ -26,7 +26,7 @@
 
             @if($pet->birthday)
             <p class="mt-4 text-sm text-gray-500">🎂誕生日🎂</p>
-            <p>{{ $pet->birthday }}</p>
+            <p>{{ $pet->birthday?->format('Y年n月j日') }}</p>
             @else
             <p>🎂誕生日🎂:不明</p>
             @endif

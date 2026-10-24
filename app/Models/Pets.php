@@ -78,4 +78,11 @@ class Pets extends Model
 
         return $diff->y . '歳 ' . $diff->m . 'ヶ月';
     }
+
+    protected function casts(): array
+    {
+        return [
+            'birthday' => 'date',
+        ];
+    }
 }

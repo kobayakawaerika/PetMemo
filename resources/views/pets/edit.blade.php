@@ -25,7 +25,7 @@
                 <!-- 誕生日 -->
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-slate-700 mb-1.5">誕生日</label>
-                    <input type="date" name="birthday" value="{{ $pet->birthday }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none">
+                    <input type="date" name="birthday" value="{{ $pet->birthday?->format('Y-m-d') }}" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none">
                 </div>
                 <!-- 登録する -->
                 <button type="submit"

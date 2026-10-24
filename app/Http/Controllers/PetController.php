@@ -88,12 +88,12 @@ class PetController extends Controller
     }
 
     // 削除
-    public function delete(Pets $pet){
+    public function delete(Pets $pet)
+    {
         // 自分のペットじゃなければ403を表示
         abort_unless($pet->user_id === Auth::id(), 403);
 
         $pet->delete();
         return redirect('/index')->with('status', 'ペットを削除しました');
-
     }
 }
