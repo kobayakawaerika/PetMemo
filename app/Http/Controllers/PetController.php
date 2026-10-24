@@ -45,13 +45,20 @@ class PetController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'sex' => ['required', 'in:man,female,unknown'],
             'birthday' => ['nullable', 'date'],
+            'photo' => ['nullable', 'image', 'max:2048'],
         ]);
+
+        $photoPath = null;
+        if ($request->hasFile('photo')){
+            $photoPath = $request->file('photo')->store('pets', 'public');
+        }
 
         Pets::create([
             'user_id' => Auth::id(),
             'name' => $validated['name'],
             'sex' => $validated['sex'],
             'birthday' => $validated['birthday'],
+            'photo_path' => $photoPath,
         ]);
 
         return redirect()->route('index');

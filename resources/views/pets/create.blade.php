@@ -3,19 +3,28 @@
     <div class="mx-auto max-w-md px-4 py-4">
         <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
             <div class="text-center text-l">
-        <h1 class="mb-3 font-midium">ペット登録</h1>
-        </div>
-            <form action="{{ route('pets.store') }}" method="POST">
+                <h1 class="mb-3 font-midium">ペット登録</h1>
+            </div>
+            <form action="{{ route('pets.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <!-- 写真 -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">写真</label>
+                    <input type="file" name="photo" accept="image/*"
+                        class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm">
+                    @error('photo')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
                 <!-- 名前 -->
                 <label class="block text-sm font-medium text-slate-700 mb-1.5">名前</label>
                 <input type="text" name="name" placeholder="名前を入力してください" class="w-full px-3 py-2 rounded-lg border border-slate-300
          focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none mb-3">
-                
-         <!-- 性別 -->
-<div class="mb-4">
+
+                <!-- 性別 -->
+                <div class="mb-4">
                     <label class="block text-sm font-medium text-slate-700 mb-1.5">性別</label>
-                    <select name="sex" 
+                    <select name="sex"
                         class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none bg-white">
                         <option value="man">♂(男の子)</option>
                         <option value="female">♀(女の子)</option>
@@ -23,10 +32,10 @@
                     </select>
                 </div>
 
-               <!-- 誕生日 -->
+                <!-- 誕生日 -->
                 <div class="mb-6">
                     <label class="block text-sm font-medium text-slate-700 mb-1.5">誕生日</label>
-                    <input type="date" name="birthday" 
+                    <input type="date" name="birthday"
                         class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none">
                 </div>
 
