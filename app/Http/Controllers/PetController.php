@@ -12,22 +12,26 @@ class PetController extends Controller
     {
         $pets = Pets::where('user_id', Auth::id())->get();
 
+        // ペットが1匹も登録されていない場合は新規作成画面へ
         if ($pets->isEmpty()) {
-            return redirect('peets.create');
+            return redirect()->route('pets.create');
         }
+
+        // リクエストされたIDのペットを取得、なければ最初の1匹
         $pet = $request->filled('pet')
-        ? $pets->firstWhere('id', $request->pet)
-        : $pets->first();
+            ? $pets->firstWhere('id', $request->pet)
+            : $pets->first();
 
-    abort_if(! $pet, 404);
+        // 他人のペットIDが指定された場合などは404
+        abort_if(! $pet, 404);
 
-    $memos = $pet->memos()
-    ->orderByDesc('memo_date')
-    ->orderByDesc('id')
-    ->take(5)
-    ->get();
+        $memos = $pet->memos()
+            ->orderByDesc('memo_date')
+            ->orderByDesc('id')
+            ->take(5)
+            ->get();
 
-    return view('pets.index', compact('pets', 'pet', 'memos'));
+        return view('pets.index', compact('pets', 'pet', 'memos'));
     }
 
     public function create()
@@ -49,18 +53,20 @@ class PetController extends Controller
             'sex' => $validated['sex'],
             'birthday' => $validated['birthday'],
         ]);
-        return redirect('index');
+
+        return redirect()->route('index');
     }
 
     // 編集画面
     public function edit($id)
     {
+        // 自分のペットのみ取得（いなければ404）
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
 
         return view('pets.edit', compact('pet'));
     }
 
-    //更新用
+    // 更新用
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -68,12 +74,16 @@ class PetController extends Controller
             'sex' => ['required', 'in:man,female,unknown'],
             'birthday' => ['nullable', 'date'],
         ]);
+
+        // 自分のペットのみ取得（いなければ404）
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
+
         $pet->update([
             'name' => $validated['name'],
             'sex' => $validated['sex'],
             'birthday' => $validated['birthday'],
         ]);
-        return redirect('index');
+
+        return redirect()->route('index', ['pet' => $pet->id]);
     }
 }
