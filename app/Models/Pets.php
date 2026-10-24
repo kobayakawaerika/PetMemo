@@ -29,9 +29,6 @@ class Pets extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'birthday' => 'date',
-    ];
 
     // --- リレーション ---
 
@@ -41,6 +38,14 @@ class Pets extends Model
     public function memos(): HasMany
     {
         return $this->hasMany(Memos::class, 'pet_id');
+    }
+
+    /**
+     * 体重記録とのリレーション（1対多）
+     */
+    public function weightLogs(): HasMany
+    {
+        return $this->hasMany(WeightLog::class, 'pet_id');
     }
 
     /**

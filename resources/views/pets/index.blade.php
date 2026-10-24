@@ -48,6 +48,7 @@
                 編集する
             </a>
         </div>
+        
 
         <div class="mt-6 max-w-md rounded-2xl bg-white p-6 shadow">
             <h3 class="text-lg font-bold">最新のメモ</h3>

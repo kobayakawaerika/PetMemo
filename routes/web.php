@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     // ペット削除用
     Route::delete('pets/{pet}/delete', [PetController::class, 'delete'])->name('pets.delete');
+
+    // 体重記録
+    Route::post('/pets/weight/{pet}', [PetController::class, 'weight'])->name('pets.weight');
 });
 
 require __DIR__ . '/auth.php';

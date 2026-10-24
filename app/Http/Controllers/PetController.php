@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pets;
+use App\Models\WeightLog;
 use Illuminate\Support\Facades\Storage;
 
 class PetController extends Controller
@@ -32,7 +33,12 @@ class PetController extends Controller
             ->take(5)
             ->get();
 
-        return view('pets.index', compact('pets', 'pet', 'memos'));
+        $weights = $pet->weightLogs()
+            ->orderByDesc('measured_at')
+            ->take(10)
+            ->get();
+
+        return view('pets.index', compact('pets', 'pet', 'memos', 'weights'));
     }
 
     public function create()
@@ -50,7 +56,7 @@ class PetController extends Controller
         ]);
 
         $photoPath = null;
-        if ($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('pets', 'public');
         }
 
@@ -88,12 +94,12 @@ class PetController extends Controller
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
 
         // 新しい写真があるときだけ、古い写真を消して保存
-    if ($request->hasFile('photo')) {
-        if ($pet->photo_path) {
-            Storage::disk('public')->delete($pet->photo_path);
+        if ($request->hasFile('photo')) {
+            if ($pet->photo_path) {
+                Storage::disk('public')->delete($pet->photo_path);
+            }
+            $data['photo_path'] = $request->file('photo')->store('pets', 'public');
         }
-        $data['photo_path'] = $request->file('photo')->store('pets', 'public');
-    }
 
         $pet->update($data);
 
@@ -108,5 +114,24 @@ class PetController extends Controller
 
         $pet->delete();
         return redirect('/index')->with('status', 'ペットを削除しました');
+    }
+
+    // 体重記録
+    public function weight(Request $request, Pets $pet)
+    {
+        abort_unless($pet->user_id === Auth::id(), 403);
+
+        $validated = $request->validate([
+            'weight' => ['required', 'numeric', 'gt:0', 'max:999.99'],
+            'measured_at' => ['required', 'date'],
+        ]);
+
+        WeightLog::create([
+            'pet_id' => $pet->id,
+            'weight' => $validated['weight'],
+            'measured_at' => $validated['measured_at'],
+        ]);
+
+        return redirect()->route('index', ['pet' => $pet->id]);
     }
 }
