@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('health_logs', function (Blueprint $table) {
+        Schema::create('weight_logs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pet_id')->constrained('pets')->cascadeOnDelete();
+            $table->decimal('weight',5,2);
+            $table->dateTime('measured_at');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('health_logs');
+        Schema::dropIfExists('weight_logs');
     }
 };
