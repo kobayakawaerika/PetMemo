@@ -93,6 +93,13 @@ class PetController extends Controller
         // 自分のペットのみ取得（いなければ404）
         $pet = Pets::where('user_id', Auth::id())->findOrFail($id);
 
+        // 更新する中身（先に作っておく）
+        $data = [
+            'name' => $validated['name'],
+            'sex' => $validated['sex'],
+            'birthday' => $validated['birthday'],
+        ];
+
         // 新しい写真があるときだけ、古い写真を消して保存
         if ($request->hasFile('photo')) {
             if ($pet->photo_path) {
@@ -141,6 +148,6 @@ class PetController extends Controller
         abort_unless($weightLog->pet->user_id === Auth::id(), 403);
 
         $weightLog->delete();
-        return redirect()->route('index',['pet' => $weightLog->pet_id]);
+        return redirect()->route('index', ['pet' => $weightLog->pet_id]);
     }
 }
