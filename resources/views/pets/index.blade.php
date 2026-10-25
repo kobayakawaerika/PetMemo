@@ -76,9 +76,16 @@
             </form>
 
             @forelse($weights as $w)
-            <div class="mt-4 border-b border-gray-200 pb-3">
-                <p class="text-sm text-gray-500">{{ $w->measured_at->format('Y/n/j H:i') }}</p>
-                <p class="text-lg">{{ $w->weight }} kg</p>
+            <div class="mt-4 border-b border-gray-200 pb-3 flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">{{ $w->measured_at->format('Y/n/j H:i') }}</p>
+                    <p class="text-lg">{{ $w->weight }} kg</p>
+                </div>
+                <form action="{{ route('weights.delete', $w) }}" method="POST" onsubmit="return confirm('本当に削除しますか？')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-sm text-red-500">削除する</button>
+                </form>
             </div>
             @empty
             <p class="mt-4 text-gray-500">まだ体重の記録がありません</p>

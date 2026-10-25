@@ -134,4 +134,13 @@ class PetController extends Controller
 
         return redirect()->route('index', ['pet' => $pet->id]);
     }
+
+    // 体重削除
+    public function weightDelete(WeightLog $weightLog, Pets $pet)
+    {
+        abort_unless($weightLog->pet->user_id === Auth::id(), 403);
+
+        $weightLog->delete();
+        return redirect()->route('index',['pet' => $weightLog->pet_id]);
+    }
 }
