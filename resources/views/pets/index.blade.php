@@ -75,6 +75,11 @@
                 </button>
             </form>
 
+            <a href="{{ route('pets.weightChart', $pet) }}"
+                class="mt-4 inline-block text-sm text-orange-500">
+                グラフを見る 📈
+            </a>
+            
             @forelse($weights as $w)
             <div class="mt-4 border-b border-gray-200 pb-3 flex items-center justify-between">
                 <div>

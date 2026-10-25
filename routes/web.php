@@ -41,6 +41,9 @@ Route::middleware('auth')->group(function () {
 
     // 体重の削除
     Route::delete('/pets/weights/{weightLog}', [PetController::class, 'weightDelete'])->name('weights.delete');
+
+    // 体重グラフページの表示
+    Route::get('/pets/{pet}/weight', [PetController::class, 'weightChart'])->name('pets.weightChart');
 });
 
 require __DIR__ . '/auth.php';

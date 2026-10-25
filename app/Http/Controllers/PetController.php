@@ -150,4 +150,22 @@ class PetController extends Controller
         $weightLog->delete();
         return redirect()->route('index', ['pet' => $weightLog->pet_id]);
     }
+
+    // 体重グラフ表示ページ
+    public function weightChart(Pets $pet)
+    {
+        abort_unless($pet->user_id === Auth::id(), 403);
+
+        $logs = $pet->weightLogs()
+            ->orderByDesc('measured_at')
+            ->take(30)
+            ->get()
+            ->reverse()
+            ->values();
+
+        $chartLabels = $logs->map(fn($log) => $log->measured_at->format('n/j H:i'))->values();
+        $chartData = $logs->pluck('weight')->map(fn($w) => (float) $w)->values();
+
+        return view('pets.weight-chart', compact('pet', 'chartLabels', 'chartData'));
+    }
 }
